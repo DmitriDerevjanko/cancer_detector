@@ -19,10 +19,10 @@ fi
 .venv/bin/pip install --upgrade pip
 .venv/bin/pip install -e ".[dev]"
 
-if sudo -n systemctl restart oncoview-api 2>/dev/null; then
+if sudo -n /usr/bin/systemctl restart oncoview-api 2>/dev/null; then
   echo "[deploy] restarted oncoview-api via system sudo"
-elif systemctl --user status oncoview-api >/dev/null 2>&1; then
-  systemctl --user restart oncoview-api
+elif /usr/bin/systemctl --user status oncoview-api >/dev/null 2>&1; then
+  /usr/bin/systemctl --user restart oncoview-api
 else
   echo "[deploy] cannot restart oncoview-api (no sudo rights and no user service)."
   exit 1
@@ -39,7 +39,7 @@ for attempt in {1..30}; do
 done
 
 echo "[deploy] health check failed"
-if command -v systemctl >/dev/null 2>&1; then
-  systemctl status oncoview-api --no-pager -l || true
+if [[ -x /usr/bin/systemctl ]]; then
+  /usr/bin/systemctl status oncoview-api --no-pager -l || true
 fi
 exit 1
