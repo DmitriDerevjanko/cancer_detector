@@ -4,7 +4,7 @@ set -euo pipefail
 if [[ "$#" -gt 0 ]]; then
   PORTS=("$@")
 else
-  PORTS=(18005 18080 2223 8005)
+  PORTS=(18005 18181 2223 8005)
 fi
 
 echo "Checking ports: ${PORTS[*]}"

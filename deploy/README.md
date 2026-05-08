@@ -11,7 +11,7 @@ This setup keeps the application logic on your local server and uses the VPS onl
 Browser
   -> https://oncoview.dmitriderevjanko.com
   -> VPS Nginx (65.108.52.117, 443)
-  -> 127.0.0.1:18080 on VPS (reverse SSH tunnel endpoint)
+  -> 127.0.0.1:18181 on VPS (reverse SSH tunnel endpoint)
   -> local server (through SSH reverse tunnel)
   -> 127.0.0.1:18005 (uvicorn app.main:app)
 ```
@@ -20,12 +20,12 @@ Browser
 
 Use these dedicated ports to avoid conflicts with your other projects:
 - Local API: `18005`
-- VPS tunnel endpoint (loopback only): `18080`
+- VPS tunnel endpoint (loopback only): `18181`
 
 Before applying, check both servers:
 
 ```bash
-ss -tulpen | rg "18005|18080|8005|2223"
+ss -tulpen | rg "18005|18181|8005|2223"
 ```
 
 If any port is busy, pick another free high port pair and update all templates accordingly.
@@ -67,7 +67,7 @@ sudo systemctl status oncoview-reverse-tunnel --no-pager
 4. Validate from VPS:
 
 ```bash
-curl -sS http://127.0.0.1:18080/health
+curl -sS http://127.0.0.1:18181/health
 ```
 
 If this works, the tunnel is good.
