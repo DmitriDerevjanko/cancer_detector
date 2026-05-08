@@ -1,0 +1,23 @@
+[Unit]
+Description=OncoView API backend
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dmitri
+Group=dmitri
+WorkingDirectory=/home/dmitri/cancer_detector
+Environment=PYTHONUNBUFFERED=1
+Environment=CANCER_API_HOST=127.0.0.1
+Environment=CANCER_API_PORT=18005
+Environment=CANCER_MODEL_CONFIG=/home/dmitri/cancer_detector/data/artifacts/models/classifier_v2_seed7_qc_champion/inference_config_balanced_ensemble.json
+Environment=CANCER_MODEL_CONFIG_HIGH_RECALL=/home/dmitri/cancer_detector/data/artifacts/models/classifier_v2_seed7_qc_champion/inference_config_high_recall.json
+ExecStart=/home/dmitri/cancer_detector/.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 18005
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
+

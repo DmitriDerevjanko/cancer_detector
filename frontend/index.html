@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OncoScope AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <div class="noise-layer" aria-hidden="true"></div>
+
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <div>
+            <p class="brand-title">OncoScope AI</p>
+            <p class="brand-subtitle">Breast Imaging Decision Support • Interactive Research Console</p>
+          </div>
+        </div>
+        <div class="pill warning">Research use only. Not intended for clinical care.</div>
+      </header>
+
+      <section class="hero card">
+        <div class="hero-copy">
+          <p class="kicker">Explainable Mammography Intelligence</p>
+          <h1>Fast triage simulation with transparent model behavior</h1>
+          <p>
+            Pick one of 20 curated demo studies or upload your own image, run prediction in balanced/high-recall mode,
+            and inspect overlays in real time.
+          </p>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric-tile">
+            <span>Active mode</span>
+            <strong id="active-mode-label">balanced</strong>
+          </div>
+          <div class="metric-tile">
+            <span>Prediction</span>
+            <strong id="prediction-label">—</strong>
+          </div>
+          <div class="metric-tile">
+            <span>Confidence</span>
+            <strong id="prediction-confidence">—</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="control-panel card">
+          <h2>Inference Control</h2>
+          <p class="panel-text">Select a demo case or upload `.dcm` / `.png` / `.jpg`, choose mode, then run analysis.</p>
+
+          <label class="dropzone" for="file-input" id="dropzone">
+            <input id="file-input" type="file" accept=".dcm,.png,.jpg,.jpeg" />
+            <span class="drop-title">Drop file here or click to browse</span>
+            <span id="file-name" class="drop-subtitle">No file selected</span>
+          </label>
+
+          <div class="samples-wrap">
+            <div class="samples-head">
+              <h3>Demo Cases</h3>
+              <span id="samples-meta">Loading...</span>
+            </div>
+            <div id="sample-grid" class="sample-grid" aria-live="polite"></div>
+          </div>
+
+          <div class="mode-switch" role="group" aria-label="Mode selector">
+            <button type="button" class="mode-btn active" data-mode="balanced">Balanced</button>
+            <button type="button" class="mode-btn" data-mode="high_recall">High Recall</button>
+          </div>
+          <p id="mode-help" class="mode-help">
+            Balanced mode aims for better precision/specificity while preserving useful sensitivity.
+          </p>
+
+          <button id="predict-btn" class="action-btn" type="button">Run Analysis</button>
+          <div id="status-box" class="status-box idle">Ready</div>
+        </aside>
+
+        <section class="result-panel card">
+          <div class="result-header">
+            <h2>Visual Explainability</h2>
+            <p id="result-meta">Awaiting inference...</p>
+          </div>
+
+          <section class="clinical-summary" id="clinical-summary">
+            <div class="summary-grid">
+              <div class="summary-cell">
+                <span>Predicted finding</span>
+                <strong id="summary-label">—</strong>
+              </div>
+              <div class="summary-cell">
+                <span>Malignancy probability</span>
+                <strong id="summary-probability">—</strong>
+              </div>
+              <div class="summary-cell">
+                <span>Operating threshold</span>
+                <strong id="summary-threshold">—</strong>
+              </div>
+              <div class="summary-cell">
+                <span>Confidence signal</span>
+                <strong id="summary-confidence-band">—</strong>
+              </div>
+            </div>
+            <div id="summary-banner" class="summary-banner neutral">Awaiting prediction.</div>
+          </section>
+
+          <div id="explain-box" class="explain-box">
+            <div class="explain-row"><span>Decision margin</span><strong id="decision-margin">—</strong></div>
+            <div class="explain-row"><span>Confidence band</span><strong id="confidence-band">—</strong></div>
+            <div class="explain-row"><span>Hotspot area</span><strong id="hotspot-area">—</strong></div>
+            <div id="warning-text" class="warning-text">No warnings.</div>
+          </div>
+
+          <div class="overlay-stage" id="overlay-stage" data-placeholder="Run analysis to render overlays">
+            <img id="img-original" class="is-empty" alt="Original input" />
+            <img id="img-overlay" class="is-empty" alt="Overlay" />
+          </div>
+
+          <div class="slider-row">
+            <label for="overlay-alpha">Overlay transparency</label>
+            <input id="overlay-alpha" type="range" min="0" max="100" value="55" />
+          </div>
+
+          <div class="gallery">
+            <figure class="thumb">
+              <img id="img-heatmap" class="is-empty" alt="Heatmap" />
+              <figcaption>Grad-CAM Heatmap</figcaption>
+            </figure>
+            <figure class="thumb">
+              <img id="img-mask" class="is-empty" alt="Mask" />
+              <figcaption>Lesion Mask</figcaption>
+            </figure>
+          </div>
+
+          <section class="limits-box">
+            <h3>Model Limits & Safe Use</h3>
+            <ul id="limits-list">
+              <li>Research-only system. Do not use as a standalone medical decision tool.</li>
+              <li>Model is trained on lesion-centered crops; full-field uploads may be less stable.</li>
+              <li>High Recall mode reduces missed positives but increases false positives.</li>
+              <li>Always pair predictions with radiologist review and clinical context.</li>
+            </ul>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/static/app.js"></script>
+  </body>
+</html>

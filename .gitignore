@@ -1,0 +1,69 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+*.log
+
+# Default: keep heavy datasets and training artifacts out of git
+data/raw/**
+data/interim/**
+data/processed/**
+data/artifacts/**
+
+# Keep directory skeletons
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/artifacts/.gitkeep
+
+# Keep only curated demo images (strictly 20 files by name)
+!data/artifacts/demo_samples/
+!data/artifacts/demo_samples/README.md
+!data/artifacts/demo_samples/s001.png
+!data/artifacts/demo_samples/s002.png
+!data/artifacts/demo_samples/s003.png
+!data/artifacts/demo_samples/s004.png
+!data/artifacts/demo_samples/s005.png
+!data/artifacts/demo_samples/s006.png
+!data/artifacts/demo_samples/s007.png
+!data/artifacts/demo_samples/s008.png
+!data/artifacts/demo_samples/s009.png
+!data/artifacts/demo_samples/s010.png
+!data/artifacts/demo_samples/s011.png
+!data/artifacts/demo_samples/s012.png
+!data/artifacts/demo_samples/s013.png
+!data/artifacts/demo_samples/s014.png
+!data/artifacts/demo_samples/s015.png
+!data/artifacts/demo_samples/s016.png
+!data/artifacts/demo_samples/s017.png
+!data/artifacts/demo_samples/s018.png
+!data/artifacts/demo_samples/s019.png
+!data/artifacts/demo_samples/s020.png
+
+# Keep only champion model configs
+!data/artifacts/models/
+!data/artifacts/models/classifier_v2_seed7_qc_champion/
+!data/artifacts/models/classifier_v2_seed7_qc_champion/inference_config_balanced_ensemble.json
+!data/artifacts/models/classifier_v2_seed7_qc_champion/inference_config_high_recall.json
+
+# Keep only top checkpoints used by champion ensembles
+!data/artifacts/runs/
+!data/artifacts/runs/classifier_full_sota_v2/
+!data/artifacts/runs/classifier_full_sota_v2/checkpoints/
+!data/artifacts/runs/classifier_full_sota_v2/checkpoints/best_auc.pt
+!data/artifacts/runs/classifier_full_sota_v2/checkpoints/last.pt
+!data/artifacts/runs/classifier_full_sota_v2_seed7/
+!data/artifacts/runs/classifier_full_sota_v2_seed7/checkpoints/
+!data/artifacts/runs/classifier_full_sota_v2_seed7/checkpoints/best_auc.pt
+!data/artifacts/runs/classifier_full_sota_v2_seed7/checkpoints/last.pt
+!data/artifacts/runs/classifier_full_sota_v2_qc/
+!data/artifacts/runs/classifier_full_sota_v2_qc/checkpoints/
+!data/artifacts/runs/classifier_full_sota_v2_qc/checkpoints/best_auc.pt
+!data/artifacts/runs/classifier_full_sota_v2_qc/checkpoints/last.pt
+
+# Keep evaluation summaries for reproducible demo metrics
+!data/artifacts/runs/ensemble_v2_seed7_qc_eval/
+!data/artifacts/runs/ensemble_v2_seed7_qc_eval/summary.json
+!data/artifacts/runs/ensemble_v2_seed7_qc_eval_r090/
+!data/artifacts/runs/ensemble_v2_seed7_qc_eval_r090/summary.json

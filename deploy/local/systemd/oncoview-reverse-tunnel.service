@@ -1,0 +1,24 @@
+[Unit]
+Description=OncoView reverse SSH tunnel (local -> VPS)
+After=network-online.target oncoview-api.service
+Wants=network-online.target oncoview-api.service
+
+[Service]
+Type=simple
+User=dmitri
+Group=dmitri
+Environment=AUTOSSH_GATETIME=0
+ExecStart=/usr/bin/autossh -M 0 -NT \
+  -i /home/dmitri/.ssh/oncoview_tunnel \
+  -o ExitOnForwardFailure=yes \
+  -o ServerAliveInterval=30 \
+  -o ServerAliveCountMax=3 \
+  -o TCPKeepAlive=yes \
+  -o StrictHostKeyChecking=yes \
+  -R 127.0.0.1:18080:127.0.0.1:18005 root@65.108.52.117
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

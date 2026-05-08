@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="OncoScope AI favicon">
+  <defs>
+    <radialGradient id="bg" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#173f63"/>
+      <stop offset="60%" stop-color="#0a1d34"/>
+      <stop offset="100%" stop-color="#050c18"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#63f3d9"/>
+      <stop offset="50%" stop-color="#4ca9ff"/>
+      <stop offset="100%" stop-color="#ff8b6a"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="26" fill="url(#bg)"/>
+  <circle cx="64" cy="64" r="42" fill="none" stroke="url(#ring)" stroke-width="8" opacity="0.95" filter="url(#glow)"/>
+  <path d="M37 78c9-23 19-35 27-35 8 0 18 12 27 35" fill="none" stroke="#8fd6ff" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="64" cy="52" r="8" fill="#63f3d9"/>
+  <circle cx="64" cy="76" r="10" fill="#ff8b6a" opacity="0.95"/>
+</svg>

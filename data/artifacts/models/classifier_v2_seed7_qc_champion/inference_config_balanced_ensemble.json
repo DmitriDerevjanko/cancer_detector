@@ -1,0 +1,26 @@
+{
+  "checkpoint": "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2/checkpoints/best_auc.pt",
+  "ensemble_checkpoints": [
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2/checkpoints/best_auc.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2/checkpoints/last.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2_seed7/checkpoints/best_auc.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2_seed7/checkpoints/last.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2_qc/checkpoints/best_auc.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2_qc/checkpoints/last.pt"
+  ],
+  "ensemble_weights": [
+    0.1750069214481815,
+    0.16446244471144972,
+    0.1672989706172372,
+    0.16153622628690212,
+    0.167281208831874,
+    0.16441422810435552
+  ],
+  "model": "efficientnet_b0",
+  "image_size": 384,
+  "tta_hflip": true,
+  "threshold": 0.05999999865889549,
+  "target_recall": 0.8,
+  "selection_summary": "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/ensemble_v2_seed7_qc_eval/summary.json",
+  "note": "Balanced mode: 6-checkpoint ensemble + TTA, recall_floor 0.80"
+}

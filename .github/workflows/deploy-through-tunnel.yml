@@ -1,0 +1,38 @@
+name: Deploy Through Tunnel
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: oncoview-live-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Load deploy SSH key
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.LOCAL_DEPLOY_SSH_KEY }}
+
+      - name: Configure known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf "%s\n" "${{ secrets.LOCAL_DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy on local server via VPS tunnel
+        env:
+          DEPLOY_HOST: ${{ secrets.LOCAL_DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.LOCAL_DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.LOCAL_DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.LOCAL_DEPLOY_PATH }}
+        run: |
+          ssh -p "${DEPLOY_PORT}" "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "bash -lc 'cd \"${DEPLOY_PATH}\" && chmod +x deploy/local/deploy_pull_restart.sh && ./deploy/local/deploy_pull_restart.sh \"${DEPLOY_PATH}\" main'"
+

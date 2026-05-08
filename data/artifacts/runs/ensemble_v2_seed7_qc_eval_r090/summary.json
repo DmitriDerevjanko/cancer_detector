@@ -1,0 +1,52 @@
+{
+  "manifest": "/Users/dmitriderevjanko/Desktop/cancer_detector/data/processed/classification_manifest_full_cropped.csv",
+  "run_dir": "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2",
+  "checkpoints": [
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2/checkpoints/best_auc.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2/checkpoints/last.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2_seed7/checkpoints/best_auc.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2_seed7/checkpoints/last.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2_qc/checkpoints/best_auc.pt",
+    "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/classifier_full_sota_v2_qc/checkpoints/last.pt"
+  ],
+  "model": "efficientnet_b0",
+  "image_size": 384,
+  "device": "mps",
+  "ranking_csv": null,
+  "top_k_from_ranking": 0,
+  "tta_hflip": true,
+  "ensemble_weighting": "val_auc",
+  "ensemble_weights": [
+    0.1750069214481815,
+    0.16446244471144972,
+    0.1672989706172372,
+    0.16153622628690212,
+    0.167281208831874,
+    0.16441422810435552
+  ],
+  "threshold_mode": "recall_floor",
+  "target_recall": 0.9,
+  "selected_threshold": 0.029999999329447746,
+  "selection_reason": "max_specificity_with_recall_floor_0.90",
+  "val_metrics": {
+    "auc": 0.7515856752537081,
+    "accuracy": 0.5849514563106796,
+    "recall": 0.9107142857142857,
+    "specificity": 0.36065573770491804,
+    "precision": 0.49514563106796117,
+    "f1": 0.6415094339622641
+  },
+  "test_metrics": {
+    "auc": 0.7128623188405796,
+    "accuracy": 0.5170454545454546,
+    "recall": 0.9565217391304348,
+    "specificity": 0.2336448598130841,
+    "precision": 0.44594594594594594,
+    "f1": 0.6082949308755761
+  },
+  "artifacts": {
+    "val_threshold_sweep": "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/ensemble_v2_seed7_qc_eval_r090/val_threshold_sweep.csv",
+    "val_predictions": "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/ensemble_v2_seed7_qc_eval_r090/val_predictions.csv",
+    "test_predictions": "/Users/dmitriderevjanko/Desktop/cancer_detector/data/artifacts/runs/ensemble_v2_seed7_qc_eval_r090/test_predictions.csv"
+  }
+}

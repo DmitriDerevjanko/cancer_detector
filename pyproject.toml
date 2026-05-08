@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cancer-detector"
+version = "0.1.0"
+description = "AI clinical decision support prototype for breast cancer detection"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.116.0",
+  "uvicorn[standard]>=0.35.0",
+  "python-multipart>=0.0.20",
+  "numpy>=2.0.0",
+  "pandas>=2.2.0",
+  "scikit-learn>=1.6.0",
+  "pydicom>=3.0.0",
+  "opencv-python>=4.10.0",
+  "matplotlib>=3.10.0",
+  "pillow>=11.0.0",
+  "albumentations>=2.0.0",
+  "torch>=2.8.0",
+  "torchvision>=0.23.0",
+  "segmentation-models-pytorch>=0.4.0",
+  "tqdm>=4.67.0",
+  "pyyaml>=6.0.2"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.4.0",
+  "ruff>=0.12.0",
+  "black>=25.1.0"
+]
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+exclude = ["data*", "frontend*", "configs*", "scripts*"]
