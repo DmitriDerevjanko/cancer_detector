@@ -28,7 +28,18 @@ else
   exit 1
 fi
 
-sleep 2
-curl -fsS http://127.0.0.1:18005/health >/dev/null
+echo "[deploy] waiting for health check"
+for attempt in {1..30}; do
+  if curl -fsS http://127.0.0.1:18005/health >/dev/null; then
+    echo "[deploy] done"
+    exit 0
+  fi
+  echo "[deploy] health check not ready yet (${attempt}/30)"
+  sleep 2
+done
 
-echo "[deploy] done"
+echo "[deploy] health check failed"
+if command -v systemctl >/dev/null 2>&1; then
+  systemctl status oncoview-api --no-pager -l || true
+fi
+exit 1
