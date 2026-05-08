@@ -50,8 +50,17 @@ def startup_load_models() -> None:
         sample_catalog_error = None
         logger.info("Loaded demo samples: %s", sample_catalog.size())
     except Exception as exc:  # noqa: BLE001
-        sample_catalog_error = str(exc)
-        logger.warning("Demo sample catalog unavailable: %s", exc)
+        manifest_error = str(exc)
+        try:
+            sample_catalog.load_from_directory(
+                PROJECT_ROOT / "data" / "artifacts" / "demo_samples",
+                sample_count=settings.sample_count,
+            )
+            sample_catalog_error = None
+            logger.info("Loaded curated demo samples: %s", sample_catalog.size())
+        except Exception as fallback_exc:  # noqa: BLE001
+            sample_catalog_error = f"{manifest_error}; fallback failed: {fallback_exc}"
+            logger.warning("Demo sample catalog unavailable: %s", sample_catalog_error)
 
 
 @app.get("/health")

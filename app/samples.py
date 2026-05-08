@@ -33,6 +33,13 @@ def _read_dicom_unit(path: Path) -> np.ndarray:
     return _normalize_to_unit(arr, mono1=mono1)
 
 
+def _read_image_unit(path: Path) -> np.ndarray:
+    with Image.open(path) as img:
+        gray = img.convert("L")
+        arr = np.asarray(gray, dtype=np.float32) / 255.0
+    return np.clip(arr, 0.0, 1.0)
+
+
 def _png_data_url_from_unit(unit: np.ndarray, max_size: int = 320) -> str:
     h, w = unit.shape[:2]
     scale = min(max_size / max(h, 1), max_size / max(w, 1), 1.0)
@@ -268,6 +275,31 @@ class SampleCatalog:
                 thumbnail_png=str(cand["thumbnail_png"]),
             )
             items.append(item)
+
+        self._items = items
+        self._by_id = {x.sample_id: x for x in items}
+
+    def load_from_directory(self, sample_dir: Path, sample_count: int = 20) -> None:
+        target = max(1, int(sample_count))
+        paths = [sample_dir / f"s{idx:03d}.png" for idx in range(1, target + 1)]
+        missing = [path.name for path in paths if not path.exists()]
+        if missing:
+            raise FileNotFoundError(f"Demo sample images missing from {sample_dir}: {missing}")
+
+        items: list[SampleItem] = []
+        for idx, path in enumerate(paths, start=1):
+            unit = _read_image_unit(path)
+            label = "benign" if idx <= 10 else "malignant"
+            items.append(
+                SampleItem(
+                    sample_id=f"s{idx:03d}",
+                    dcm_path=path.resolve(),
+                    file_name=path.name,
+                    ground_truth=label,
+                    source_split="curated",
+                    thumbnail_png=_png_data_url_from_unit(unit, max_size=300),
+                )
+            )
 
         self._items = items
         self._by_id = {x.sample_id: x for x in items}
