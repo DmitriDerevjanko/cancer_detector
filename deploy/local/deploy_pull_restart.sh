@@ -19,8 +19,8 @@ fi
 .venv/bin/pip install --upgrade pip
 .venv/bin/pip install -e ".[dev]"
 
-if sudo -n true 2>/dev/null; then
-  sudo systemctl restart oncoview-api
+if sudo -n systemctl restart oncoview-api 2>/dev/null; then
+  echo "[deploy] restarted oncoview-api via system sudo"
 elif systemctl --user status oncoview-api >/dev/null 2>&1; then
   systemctl --user restart oncoview-api
 else
